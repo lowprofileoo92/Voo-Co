@@ -1,0 +1,270 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import './App.css';
+import Header from './components/Header';
+import Navigation from './components/Navigation';
+
+// Lazy loading das abas
+const MilesTab = lazy(() => import('./components/tabs/MilesTab'));
+const RewardsTab = lazy(() => import('./components/tabs/RewardsTab'));
+const SecurityTab = lazy(() => import('./components/tabs/SecurityTab'));
+const ChatTab = lazy(() => import('./components/tabs/ChatTab'));
+const FlashTab = lazy(() => import('./components/tabs/FlashTab'));
+const WalletTab = lazy(() => import('./components/tabs/WalletTab'));
+const AITab = lazy(() => import('./components/tabs/AITab'));
+const FlightsTab = lazy(() => import('./components/tabs/FlightsTab'));
+const RatesTab = lazy(() => import('./components/tabs/RatesTab'));
+const TravelTab = lazy(() => import('./components/tabs/TravelTab'));
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <Header />
+      <Navigation />
+      <div className="content">
+        <Suspense fallback={<div>Carregando...</div>}>
+          <Switch>
+            <Route path="/miles" component={MilesTab} />
+            <Route path="/rewards" component={RewardsTab} />
+            <Route path="/security" component={SecurityTab} />
+            <Route path="/chat" component={ChatTab} />
+            <Route path="/flash" component={FlashTab} />
+            <Route path="/wallet" component={WalletTab} />
+            <Route path="/ai" component={AITab} />
+            <Route path="/flights" component={FlightsTab} />
+            <Route path="/rates" component={RatesTab} />
+            <Route path="/travel" component={TravelTab} />
+            <Route path="/" exact>
+              <h2>Bem-vindo ao meu site!</h2>
+            </Route>
+          </Switch>
+        </Suspense>
+      </div>
+    </Router>
+  );
+};
+
+export default App;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+nav {
+  background-color: #444;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 10px 0;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  color: #00bcd4;
+  font-weight: bold;
+  border-bottom: 2px solid #00bcd4;
+}
+
+.content {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav ul li {
+    margin: 10px 0;
+  }
+}
+import React from 'react';
+
+const Header: React.FC = () => {
+  return (
+    <header>
+      <h1>Meu Site</h1>
+      <p>Exemplo com navegação por abas</p>
+    </header>
+  );
+};
+
+export default Header;
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+
+const tabs = [
+  { path: '/miles', label: 'Milhas' },
+  { path: '/rewards', label: 'Recompensas' },
+  { path: '/security', label: 'Segurança' },
+  { path: '/chat', label: 'Chat' },
+  { path: '/flash', label: 'Flash' },
+  { path: '/wallet', label: 'Carteira' },
+  { path: '/ai', label: 'IA' },
+  { path: '/flights', label: 'Voos' },
+  { path: '/rates', label: 'Taxas' },
+  { path: '/travel', label: 'Viagens' },
+];
+
+const Navigation: React.FC = () => {
+  const location = useLocation();
+
+  return (
+    <nav>
+      <ul>
+        {tabs.map(tab => (
+          <li key={tab.path}>
+            <Link
+              to={tab.path}
+              className={location.pathname === tab.path ? 'active' : ''}
+            >
+              {tab.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
+export default Navigation;
+import React from 'react';
+
+const MilesTab: React.FC = () => {
+  return (
+    <div>
+      <h2>Milhas</h2>
+      <p>Informações sobre milhas acumuladas.</p>
+    </div>
+  );
+};
+
+export default MilesTab;
+import React from 'react';
+
+const RewardsTab: React.FC = () => {
+  return (
+    <div>
+      <h2>Recompensas</h2>
+      <p>Seus pontos e programas de recompensas.</p>
+    </div>
+  );
+};
+
+export default RewardsTab;
+import React from 'react';
+
+const SecurityTab: React.FC = () => {
+  return (
+    <div>
+      <h2>Segurança</h2>
+      <p>Gerencie sua segurança e autenticação.</p>
+    </div>
+  );
+};
+
+export default SecurityTab;
+import React from 'react';
+
+const ChatTab: React.FC = () => {
+  return (
+    <div>
+      <h2>Chat</h2>
+      <p>Converse com nosso assistente virtual.</p>
+    </div>
+  );
+};
+
+export default ChatTab;
+import React from 'react';
+
+const FlashTab: React.FC = () => {
+  return (
+    <div>
+      <h2>Flash</h2>
+      <p>Ofertas rápidas e promoções relâmpago.</p>
+    </div>
+  );
+};
+
+export default FlashTab;
+import React from 'react';
+
+const WalletTab: React.FC = () => {
+  return (
+    <div>
+      <h2>Carteira</h2>
+      <p>Gerencie seu saldo e métodos de pagamento.</p>
+    </div>
+  );
+};
+
+export default WalletTab;
+import React from 'react';
+
+const AITab: React.FC = () => {
+  return (
+    <div>
+      <h2>Inteligência Artificial</h2>
+      <p>Ferramentas de IA personalizadas para você.</p>
+    </div>
+  );
+};
+
+export default AITab;
+import React from 'react';
+
+const FlightsTab: React.FC = () => {
+  return (
+    <div>
+      <h2>Voos</h2>
+      <p>Busque, reserve e gerencie seus voos.</p>
+    </div>
+  );
+};
+
+export default FlightsTab;
+import React from 'react';
+
+const Rates
