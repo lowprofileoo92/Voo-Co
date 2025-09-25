@@ -1,0 +1,260 @@
+src/
+│
+├── App.tsx
+├── App.css
+├── index.tsx
+│
+├── components/
+│   ├── Header.tsx
+│   ├── Navigation.tsx
+│   └── tabs/
+│       ├── MilesTab.tsx
+│       ├── RewardsTab.tsx
+│       ├── SecurityTab.tsx
+│       ├── ChatTab.tsx
+│       ├── FlashTab.tsx
+│       ├── WalletTab.tsx
+│       ├── AITab.tsx
+│       ├── FlightsTab.tsx
+│       ├── RatesTab.tsx
+│       └── TravelTab.tsx
+src/index.tsximport React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+src/App.tsx
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import './App.css';
+import Header from './components/Header';
+import Navigation from './components/Navigation';
+
+// Lazy loading das abas
+const MilesTab = lazy(() => import('./components/tabs/MilesTab'));
+const RewardsTab = lazy(() => import('./components/tabs/RewardsTab'));
+const SecurityTab = lazy(() => import('./components/tabs/SecurityTab'));
+const ChatTab = lazy(() => import('./components/tabs/ChatTab'));
+const FlashTab = lazy(() => import('./components/tabs/FlashTab'));
+const WalletTab = lazy(() => import('./components/tabs/WalletTab'));
+const AITab = lazy(() => import('./components/tabs/AITab'));
+const FlightsTab = lazy(() => import('./components/tabs/FlightsTab'));
+const RatesTab = lazy(() => import('./components/tabs/RatesTab'));
+const TravelTab = lazy(() => import('./components/tabs/TravelTab'));
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <Header />
+      <Navigation />
+      <div className="content">
+        <Suspense fallback={<div>Carregando...</div>}>
+          <Switch>
+            <Route path="/miles" component={MilesTab} />
+            <Route path="/rewards" component={RewardsTab} />
+            <Route path="/security" component={SecurityTab} />
+            <Route path="/chat" component={ChatTab} />
+            <Route path="/flash" component={FlashTab} />
+            <Route path="/wallet" component={WalletTab} />
+            <Route path="/ai" component={AITab} />
+            <Route path="/flights" component={FlightsTab} />
+            <Route path="/rates" component={RatesTab} />
+            <Route path="/travel" component={TravelTab} />
+            <Route path="/" exact>
+              <h2>Bem-vindo ao meu site!</h2>
+            </Route>
+          </Switch>
+        </Suspense>
+      </div>
+    </Router>
+  );
+};
+
+export default App;
+src/App.css
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+nav {
+  background-color: #444;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 10px 0;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  color: #00bcd4;
+  font-weight: bold;
+  border-bottom: 2px solid #00bcd4;
+}
+
+.content {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav ul li {
+    margin: 10px 0;
+  }
+}
+src/App.css
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+nav {
+  background-color: #444;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 10px 0;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  color: #00bcd4;
+  font-weight: bold;
+  border-bottom: 2px solid #00bcd4;
+}
+
+.content {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav ul li {
+    margin: 10px 0;
+  }
+}
+src/components/Header.tsx
+import React from 'react';
+
+const Header: React.FC = () => {
+  return (
+    <header>
+      <h1>Meu Site</h1>
+      <p>Exemplo com navegação por abas</p>
+    </header>
+  );
+};
+
+export default Header;
+src/components/Navigation.tsx
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+
+const tabs = [
+  { path: '/miles', label: 'Milhas' },
+  { path: '/rewards', label: 'Recompensas' },
+  { path: '/security', label: 'Segurança' },
+  { path: '/chat', label: 'Chat' },
+  { path: '/flash', label: 'Flash' },
+  { path: '/wallet', label: 'Carteira' },
+  { path: '/ai', label: 'IA' },
+  { path: '/flights', label: 'Voos' },
+  { path: '/rates', label: 'Taxas' },
+  { path: '/travel', label: 'Viagens' },
+];
+
+const Navigation: React.FC = () => {
+  const location = useLocation();
+
+  return (
+    <nav>
+      <ul>
+        {tabs.map(tab => (
+          <li key={tab.path}>
+            <Link
+              to={tab.path}
+              className={location.pathname === tab.path ? 'active' : ''}
+            >
+              {tab.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
+export default Navigation;
